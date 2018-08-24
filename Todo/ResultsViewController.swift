@@ -116,7 +116,7 @@ class ResultsViewController: UIViewController, MFMailComposeViewControllerDelega
         
         mailComposerVC.setToRecipients(["sean@wychall.bham.sch.uk"])
         mailComposerVC.setSubject("Data")
-        mailComposerVC.setMessageBody(resultsView.text, isHTML: false)
+        mailComposerVC.setMessageBody(resultsView.text!, isHTML: false)
         
         return mailComposerVC
     }
@@ -126,7 +126,7 @@ class ResultsViewController: UIViewController, MFMailComposeViewControllerDelega
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["sean.moles@gmail.com"])
-            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
+            mail.setMessageBody("<p>Oops</p>", isHTML: true)
             
             present(mail, animated: true)
         } else {
