@@ -88,9 +88,15 @@ class TodoViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add pupil", style: .default) { (action) in
     //When Add pupil clicked, add textfield.text to Array then copy array to Coredata
+            if textField.text! == "" {
+                
+            }else {
+                
+            
             self.itemArray.append(textField.text!)
             self.defaults.set(self.itemArray, forKey: "nameArray")
             self.tableView.reloadData()
+        }
         }
     //Add text field to Alert dialog box
         alert.addTextField { (alertTextField) in
