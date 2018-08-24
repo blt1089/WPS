@@ -8,7 +8,8 @@
 
 import UIKit
 import CoreData
-class ResultsViewController: UIViewController {
+import MessageUI
+class ResultsViewController: UIViewController, MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var resultsView: UITextView!
   
@@ -19,7 +20,46 @@ class ResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+       resultsView.isHidden = true
+  
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Password", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Login", style: .default) { (action) in
+            if textField.text != String(2480) {
+            _ = self.navigationController?.popToRootViewController(animated: true)
+              
+            }else {
+                self.resultsView.isHidden = false
+            }
+        }
+        //Add text field to Alert dialog box
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Enter Password"
+            textField = alertTextField
+        }
+        //Show Alert dialog box
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil )
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         if (self.defaults.object(forKey: "nameArray") != nil) {
             itemArray = defaults.array(forKey: "nameArray") as! [String]
         }
@@ -29,7 +69,7 @@ class ResultsViewController: UIViewController {
            if (self.defaults.object(forKey: names) != nil) {
             let res = defaults.array(forKey: names) as! [String]
             for info in res {
-           resultsView.text.append("\(info),  ")
+           resultsView.text.append("\(info)  ")
             }
             resultsView.text.append("\n\n")
         }
@@ -60,7 +100,51 @@ class ResultsViewController: UIViewController {
         printController.present(from: self.view.frame, in: self.view, animated: true, completionHandler: nil)
 
     }
-}
+    @IBAction func emailButtonPressed(_ sender: UIButton) {
+
+        let mailComposeViewController = configuredMailComposeViewController()
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            self.showSendMailErrorAlert()
+        }
+    }
+    
+    func configuredMailComposeViewController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+        mailComposerVC.setToRecipients(["sean@wychall.bham.sch.uk"])
+        mailComposerVC.setSubject("Data")
+        mailComposerVC.setMessageBody(resultsView.text, isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["sean.moles@gmail.com"])
+            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
+            
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+
+    }
+
+
+
+
+
+
 extension UIView {
     func toImage() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)

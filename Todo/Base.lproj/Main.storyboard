@@ -257,6 +257,14 @@
                                     <action selector="printPressed:" destination="EyP-9z-6Bf" eventType="touchUpInside" id="HRJ-NZ-vnV"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnj-G6-YUM">
+                                <rect key="frame" x="575" y="66" width="63" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Email"/>
+                                <connections>
+                                    <action selector="emailButtonPressed:" destination="EyP-9z-6Bf" eventType="touchUpInside" id="QN7-6L-5f4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Q85-Sq-5vB"/>
@@ -301,6 +309,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yr2-mF-Y8T"/>
+        <segue reference="IMM-2f-oYZ"/>
     </inferredMetricsTieBreakers>
 </document>

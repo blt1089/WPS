@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class TestViewController: UIViewController {
+class TestViewController: UIViewController, MFMailComposeViewControllerDelegate {
     var qtnArray = [String]()  //Empty array
     var numCount: Int = 0
     var num1: Int = 0
@@ -117,7 +118,7 @@ func showQuestion() {
         let alert = UIAlertController(title: "\(name)", message: "You scored \(total) out of \(numCount)", preferredStyle: .alert)
         self.defaults.set(self.qtnArray, forKey: name)
         let action = UIAlertAction(title: "Ok", style: .default) { (action) in
-
+        self.email()
             _ = self.navigationController?.popToRootViewController(animated: true)
         }
 //        alert.addTextField { (alertTextField) in
@@ -134,7 +135,44 @@ func showQuestion() {
             newQuestion()
         }
     }
+    func email() {
+        let mailComposeViewController = configuredMailComposeViewController()
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            self.showSendMailErrorAlert()
+        }
+    }
     
+    func configuredMailComposeViewController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+        mailComposerVC.setToRecipients(["sean@wychall.bham.sch.uk"])
+        mailComposerVC.setSubject("Data")
+        let messageTxt: String = "\(qtnArray)"
+        mailComposerVC.setMessageBody(messageTxt, isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["sean.moles@gmail.com"])
+            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
+            
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    
+    }
 }
 
 
