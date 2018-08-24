@@ -52,9 +52,15 @@
                                     <action selector="questionsPressed:" destination="QyJ-44-cbk" id="bcA-Di-FQm"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="Item" id="wjg-CS-1Nt">
+                                <connections>
+                                    <action selector="countPressed:" destination="QyJ-44-cbk" id="FVA-uE-TiI"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="countDownButton" destination="wjg-CS-1Nt" id="CtH-3j-fpW"/>
                         <outlet property="questions" destination="N9b-mS-SlO" id="VhO-Jv-Z0s"/>
                         <segue destination="bbx-gh-qb6" kind="show" identifier="Transition" id="KAF-uX-4ph"/>
                     </connections>
@@ -197,7 +203,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <state key="normal" title="Next Question"/>
                                 <connections>
-                                    <action selector="newQuestion:" destination="bbx-gh-qb6" eventType="touchUpInside" id="VlP-5N-NSN"/>
+                                    <action selector="newQuestion" destination="bbx-gh-qb6" eventType="touchUpInside" id="XJM-tB-HMR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sEL-sX-vcD">
@@ -206,7 +212,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <state key="normal" title="Finish"/>
                                 <connections>
-                                    <action selector="finishPressed:" destination="bbx-gh-qb6" eventType="touchUpInside" id="6MU-gc-Fg1"/>
+                                    <action selector="finishPressed" destination="bbx-gh-qb6" eventType="touchUpInside" id="abF-L3-yw0"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -295,6 +301,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="IMM-2f-oYZ"/>
+        <segue reference="yr2-mF-Y8T"/>
     </inferredMetricsTieBreakers>
 </document>

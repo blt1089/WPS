@@ -1,8 +1,10 @@
 import UIKit
 var name = ""
 var numQtns = 24
+var seconds = 15
 class TodoViewController: UITableViewController {
 
+    @IBOutlet weak var countDownButton: UIBarButtonItem!
     @IBOutlet weak var questions: UIBarButtonItem!
     var itemArray = [String]()  //Empty array
     
@@ -10,13 +12,37 @@ class TodoViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        
+        
+        
+        
+        // Check if CoreData exists, if so, copy to questions and time
+        if (self.defaults.object(forKey: "countDown") == nil) {
+            self.defaults.set(seconds, forKey: "countDown")
+        }else {
+            seconds = Int(defaults.integer(forKey: "countDown"))
+        }
+        countDownButton.title = "\(seconds) seconds per question"
+        
+        
+        if (self.defaults.object(forKey: "qtns") == nil) {
+            self.defaults.set(numQtns, forKey: "qtns")
+        }else {
+            numQtns = Int(defaults.integer(forKey: "qtns"))
+        }
         questions.title = "\(numQtns) Questions"
         
-    // Check if CoreData exists, if so, copy to array variable
+        
+
+        
+        
+        
+        // Check if CoreData exists, if so, copy to array variable
         if (self.defaults.object(forKey: "nameArray") != nil) {
             itemArray = defaults.array(forKey: "nameArray") as! [String]
-            
-        }
+            }
+        
     }
     // Create table cells
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,8 +111,9 @@ class TodoViewController: UITableViewController {
             //When Add pupil clicked, set answer to numQtns and rename button
             if let ans: Int = Int(textField.text!) {
                 numQtns = ans
+                self.defaults.set(numQtns, forKey: "qtns")
                 self.questions.title = "\(numQtns) Questions"
-            print(numQtns)
+            
                 
             }
         }
@@ -98,15 +125,34 @@ class TodoViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil )
     }
+
+ 
+    @IBAction func countPressed(_ sender: Any) {
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated) // No need for semicolon
-//viewDidLoad()
-//    }
-//
-
-
-
+    var textFieldCount = UITextField()
+        let alert = UIAlertController(title: "Number of Seconds", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Set Time", style: .default) { (action) in
+            //When count clicked, set seconds
+            if let counts: Int = Int(textFieldCount.text!) {
+                seconds = counts
+                self.defaults.set(seconds, forKey: "countDown")
+                self.countDownButton.title = "\(seconds) Seconds per Question"
+                
+                
+              
+                
+            }
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Number"
+            textFieldCount = alertTextField
+        }
+        //Show Alert dialog box
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil )
+    
+    }
 }
 
 

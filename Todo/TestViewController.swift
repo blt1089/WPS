@@ -16,7 +16,8 @@ class TestViewController: UIViewController {
     var answer: Int = 0
     var total: Int = 0
     
-    
+    var gameTimer = Timer()
+    var isTimerRunning = false
     
     @IBOutlet weak var textName: UILabel!
     @IBOutlet weak var questionLbl: UILabel!
@@ -32,6 +33,9 @@ class TestViewController: UIViewController {
         if (self.defaults.object(forKey: name) != nil) {
             let alert = UIAlertController(title: "Results already saved for \(name)", message: "Press OK to retake test or cancel to return", preferredStyle: .alert)
             let action = UIAlertAction(title: "Ok", style: .default) { (action) in
+ 
+                self.defaults.removeObject(forKey: name)
+                self.showQuestion()
                 
             }
             let cancel = UIAlertAction(title: "Cancel", style: .default) { (cancel) in
@@ -42,16 +46,13 @@ class TestViewController: UIViewController {
             alert.addAction(action)
             present(alert, animated: true, completion: nil )
             
+        }else {
+            self.showQuestion()
         }
-
-        
-        
-        
-        
         qtnArray.append("\(name)")
         QtnButton.isHidden = false
         finishButton.isHidden = true
-        showQuestion()
+        
 textName.text = name
         // Do any additional setup after loading the view.
     }
@@ -75,7 +76,8 @@ textName.text = name
                     }
     }
 
-    @IBAction func newQuestion(_ sender: UIButton) {
+    @IBAction func newQuestion() {
+        gameTimer.invalidate()
         checkanswer()
         showQuestion()
     }
@@ -87,9 +89,10 @@ textName.text = name
              qtnArray.append("\(num1)x\(num2)=\(ansLbl.text!)")
         }
         ansLbl.text = "0"
+
     }
 
-    func showQuestion() {
+func showQuestion() {
         
         numCount = numCount + 1
         num1 = Int(arc4random_uniform(12)+1)
@@ -100,17 +103,22 @@ textName.text = name
             QtnButton.isHidden = true
             finishButton.isHidden = false
         }
+        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(seconds), target: self, selector: #selector(timerRunOut), userInfo: nil, repeats: true)
     }
     
-    @IBAction func finishPressed(_ sender: UIButton) {
+    @IBAction func finishPressed() {
+        gameTimer.invalidate()
+        
+        finishButton.isHidden = true
         checkanswer()
-        qtnArray.append("\(total) out of \(numCount)")
+        qtnArray.append("\(total) out of \(numCount) and \(seconds) Seconds per question")
         finishButton.isHidden = true
         
         let alert = UIAlertController(title: "\(name)", message: "You scored \(total) out of \(numCount)", preferredStyle: .alert)
         self.defaults.set(self.qtnArray, forKey: name)
         let action = UIAlertAction(title: "Ok", style: .default) { (action) in
-             _ = self.navigationController?.popToRootViewController(animated: true)
+
+            _ = self.navigationController?.popToRootViewController(animated: true)
         }
 //        alert.addTextField { (alertTextField) in
 //
@@ -119,6 +127,13 @@ textName.text = name
         present(alert, animated: true, completion: nil )
     }
     
+    @objc func timerRunOut() {
+         if numCount == numQtns {
+           finishPressed()
+        }else {
+            newQuestion()
+        }
+    }
     
 }
 

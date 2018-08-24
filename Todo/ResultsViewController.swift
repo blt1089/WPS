@@ -25,6 +25,7 @@ class ResultsViewController: UIViewController {
         }
         
         for names in itemArray {
+            
            if (self.defaults.object(forKey: names) != nil) {
             let res = defaults.array(forKey: names) as! [String]
             for info in res {
