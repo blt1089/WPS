@@ -114,7 +114,7 @@ class ResultsViewController: UIViewController, MFMailComposeViewControllerDelega
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
-        mailComposerVC.setToRecipients(["sean@wychall.bham.sch.uk"])
+        mailComposerVC.setToRecipients([""])
         mailComposerVC.setSubject("Data")
         mailComposerVC.setMessageBody(resultsView.text!, isHTML: false)
         

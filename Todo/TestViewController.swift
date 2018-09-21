@@ -148,7 +148,7 @@ func showQuestion() {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
-        mailComposerVC.setToRecipients(["sean@wychall.bham.sch.uk"])
+        mailComposerVC.setToRecipients([""])
         mailComposerVC.setSubject("Data")
         let messageTxt: String = "\(qtnArray)"
         mailComposerVC.setMessageBody(messageTxt, isHTML: false)
@@ -160,7 +160,7 @@ func showQuestion() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["sean.moles@gmail.com"])
+            mail.setToRecipients([""])
             mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
             
             present(mail, animated: true)
